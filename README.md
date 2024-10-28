@@ -1,4 +1,4 @@
-# Recruit Matcher API REST con Spring Boot y Kotlin
+# AsesorHub API REST con Spring Boot y Kotlin
 
 Swagger (Local) -> http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
