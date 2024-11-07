@@ -31,7 +31,6 @@ class SecurityConfig {
                 it.anyRequest().authenticated()
             }
             .addFilterAfter(JwtAuth0SecurityFilter(), BasicAuthenticationFilter::class.java)
-            .addFilterAfter(JwtAuth0SecurityFilter(), BasicAuthenticationFilter::class.java)
 
         return http.build()
     }
