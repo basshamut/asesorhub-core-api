@@ -15,7 +15,7 @@ class SecurityConfig {
     @Throws(Exception::class)
     fun configure(http: HttpSecurity): SecurityFilterChain {
         http
-            .csrf { it.disable() } // Nueva forma de deshabilitar CSRF en Spring Security 6.1
+            .csrf { it.disable() }
             .authorizeHttpRequests {
                 it.requestMatchers(
                     "/unauthenticated",
