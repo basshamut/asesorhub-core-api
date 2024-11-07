@@ -14,7 +14,7 @@ import java.io.IOException
 class SimpleCORSFilter: Filter {
 
     fun SimpleCORSFilter() {
-        val log = LoggerFactory.getLogger(com.asesorhub.api.config.SimpleCORSFilter::class.java)
+        val log = LoggerFactory.getLogger(SimpleCORSFilter::class.java)
         log.info("SimpleCORSFilter init")
     }
 
