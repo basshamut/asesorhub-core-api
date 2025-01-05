@@ -18,11 +18,10 @@ import org.springframework.security.core.context.SecurityContextHolder
 import java.io.IOException
 import java.net.URL
 import java.security.interfaces.RSAPublicKey
-import java.util.List
 
 class JwtAuth0SecurityFilter : Filter {
     var logger: Logger = LoggerFactory.getLogger(javaClass)
-    var jwkProvider: JwkProvider =
+    private var jwkProvider: JwkProvider =
         JwkProviderBuilder(URL("https://dev-7z72cbvm1xnup3l1.us.auth0.com/.well-known/jwks.json")).build()
 
     @Throws(IOException::class, ServletException::class)
@@ -36,8 +35,8 @@ class JwtAuth0SecurityFilter : Filter {
 
             val token = authorizationHeader.substring(7)
             val decodedJWT: DecodedJWT = JWT.decode(token)
-            val jwk: Jwk = jwkProvider.get(decodedJWT.getKeyId())
-            val algorithm: Algorithm = Algorithm.RSA256(jwk.getPublicKey() as RSAPublicKey, null)
+            val jwk: Jwk = jwkProvider.get(decodedJWT.keyId)
+            val algorithm: Algorithm = Algorithm.RSA256(jwk.publicKey as RSAPublicKey, null)
 
             val verifier: JWTVerifier = JWT.require(algorithm)
                 .withIssuer("https://dev-7z72cbvm1xnup3l1.us.auth0.com/")
@@ -46,8 +45,8 @@ class JwtAuth0SecurityFilter : Filter {
 
             SecurityContextHolder.getContext().authentication =
                 UsernamePasswordAuthenticationToken(
-                    decodedJWT.getSubject(), null,
-                    List.of(SimpleGrantedAuthority("SIMPLE_AUTHORITY"))
+                    decodedJWT.subject, null,
+                    listOf(SimpleGrantedAuthority("SIMPLE_AUTHORITY"))
                 )
         } catch (jwtVerificationException: JWTVerificationException) {
             logger.error("Verification Exception", jwtVerificationException)
